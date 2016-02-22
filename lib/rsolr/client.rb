@@ -178,6 +178,10 @@ class RSolr::Client
   #
   def execute request_context
 
+    unless request_context.nil?
+      Rails.logger.debug "unescaped context => #{URI.unescape(request_context)}"
+      Rails.logger.debug "escaped context => #{request_context}"
+    end
     raw_response = connection.execute self, request_context
 
     while retry_503?(request_context, raw_response)
