@@ -178,9 +178,9 @@ class RSolr::Client
   #
   def execute request_context
 
-    unless request_context.nil?
-      Rails.logger.debug "unescaped context => #{URI.unescape(request_context[:uri])}"
-      Rails.logger.debug "escaped context => #{request_context[:uri]}"
+    if request_context[:uri].present? && request_context[:uri].is_a?(URI::HTTP)
+      Rails.logger.debug "unescaped context => #{URI.unescape(request_context[:uri].to_s)}"
+      Rails.logger.debug "escaped context => #{request_context[:uri].to_s}"
     end
     raw_response = connection.execute self, request_context
 
